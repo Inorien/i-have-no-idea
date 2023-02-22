@@ -1,6 +1,8 @@
 //Player class
+#pragma once
 
 #include "info.h"
+#include "inventory.h"
 #include "mob.h"
 
 namespace Mob {
@@ -8,7 +10,7 @@ namespace Mob {
 class Player : public Mob {
 
   Info m_info{}; //name etc
-  //Inventory* m_inventory; //duh
+  Inventory m_inventory; //duh
   //Stats m_stats; //hp, weight, str, agi, int etc
   //Spellbook m_spellbook; //attacks and abilities
 
@@ -28,6 +30,11 @@ public:
   ~Player() = default; //???
 
   const auto& getInfo() const {return m_info;}
+  
+  //write access is bad
+  auto& getInventory() {return m_inventory;}
+  
+  const auto& getInventory() const {return m_inventory;}
 
 };
 
