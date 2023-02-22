@@ -1,6 +1,7 @@
 //Player class
 
 #include "info.h"
+#include "stats.h"
 #include "mob.h"
 
 namespace Mob {
@@ -9,7 +10,7 @@ class Player : public Mob {
 
   Info m_info{}; //name etc
   //Inventory* m_inventory; //duh
-  //Stats m_stats; //hp, weight, str, agi, int etc
+  Stats m_stats{}; //hp, weight, str, agi, int etc
   //Spellbook m_spellbook; //attacks and abilities
 
 public:
@@ -28,6 +29,7 @@ public:
   ~Player() = default; //???
 
   const auto& getInfo() const {return m_info;}
+  const auto& getStats() const {return m_stats;}
 
 };
 
