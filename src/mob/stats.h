@@ -1,4 +1,5 @@
 //Vital statistics
+#pragma once
 
 #include <map>
 #include <stdexcept>
