@@ -9,7 +9,9 @@ int main() {
 
   Mob::Player player(name);
 
-  std::cout << "Created a player with name: " << player.getInfo().getName() << "\n";
+  name = player.getInfo().getName();
+  std::cout << "Created a player with name: " << name << "\n";
+  std::cout << player.getStats();
 
   return 0;
 
