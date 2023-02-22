@@ -1,4 +1,5 @@
 //Base mob type
+#pragma once
 
 //TODO mob factory
 
