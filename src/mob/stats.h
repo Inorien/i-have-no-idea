@@ -8,22 +8,12 @@
 
 namespace Mob {
 
-//this already looks like a trash system
-enum class StatName {
-  HITPOINTS
-};
-
-static std::string statName2String(const StatName& statName) {
-  switch(statName) {
-    case (StatName::HITPOINTS):
-      return "HITPOINTS";
-    default:
-      throw std::runtime_error("Query for unknown statName made: " + (int)statName);
-  }
-}
-
 class Stat {
 public:
+
+  explicit Stat(std::string name) : 
+    m_name(name)
+  {}
 
   void setValue(const unsigned value) {
     m_value = value;
@@ -33,27 +23,27 @@ public:
 
 private:
   unsigned m_value{0};
+  std::string m_name;
 };
 
 class Stats {
 
-  std::map<StatName, Stat> m_stats;
+  std::map<std::string, Stat> m_stats;
 
-  auto& getStat(const StatName& statName) {
+  auto& getStat(const std::string& statName) {
     const auto stat {m_stats.find(statName)};
     if (stat != m_stats.end()) {
       return stat->second;
     }
-    throw std::runtime_error("Attempt made to get unset stat " + statName2String(statName));
+    throw std::runtime_error("Attempt made to get unset stat " + statName);
   }
 
-  //cba working out how to make this tidy
-  const auto& getStat(const StatName& statName) const {
+  const auto& getStat(const std::string& statName) const {
     const auto stat {m_stats.find(statName)};
     if (stat != m_stats.end()) {
       return stat->second;
     }
-    throw std::runtime_error("Attempt made to get unset stat " + statName2String(statName));
+    throw std::runtime_error("Attempt made to get unset stat " + statName);
   }
 
 public:
@@ -67,15 +57,15 @@ public:
   ~Stats() = default;
 
   Stats() {
-    //gross
-    m_stats.emplace(std::make_pair<StatName, Stat>(StatName::HITPOINTS, Stat()));
+    //i hate the string
+    m_stats.insert({"Hitpoints", Stat{"Hitpoints"}});
   }
 
-  const auto& getStatValue(const StatName& statName) const {
+  const auto& getStatValue(const std::string& statName) const {
     return getStat(statName).getValue();
   }
 
-  void setStatValue(const StatName& statName, const unsigned value) {
+  void setStatValue(const std::string& statName, const unsigned value) {
     auto& stat {getStat(statName)};
     stat.setValue(value);
   }
@@ -85,7 +75,7 @@ public:
 std::ostream& operator<<(std::ostream& os, const Stats& stats) {
   os << "Stats:\n";
   for (const auto& stat : stats.m_stats) {
-    os << statName2String(stat.first) << " : "
+    os << stat.first << " : "
       << stat.second.getValue() << ", ";
   }
   os << std::endl;
